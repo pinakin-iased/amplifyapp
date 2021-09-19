@@ -4,6 +4,7 @@ import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 import { API, Storage } from 'aws-amplify';
+import { Button, Input, List } from '@mui/material';
 
 const initialFormState = { name: '', description: '' }
 
@@ -55,29 +56,38 @@ function App() {
 
   return (
     <div className="App">
-      <h1>My Notes App</h1>
-      <input
+      <h1>My Notes</h1>
+      <Input
         onChange={e => setFormData({ ...formData, 'name': e.target.value})}
         placeholder="Note name"
         value={formData.name}
       />
-      <input
+      <Input
         onChange={e => setFormData({ ...formData, 'description': e.target.value})}
         placeholder="Note description"
         value={formData.description}
+        style={{marginLeft: "20px"}}
       />
-      <input
-        type="file"
-        onChange={onChange}
-      />
-      <button onClick={createNote}>Create Note</button>
+      <Button
+        variant="contained"
+        component="label"
+        style={{marginLeft: "20px"}}
+      >
+        Upload Image
+        <input
+          type="file"
+          onChange={onChange}
+          hidden
+        />
+      </Button>
+      <Button onClick={createNote} style={{marginLeft: "20px"}}>Create Note</Button>
       <div style={{marginBottom: 30}}>
       {
         notes.map(note => (
           <div key={note.id || note.name}>
           <h2>{note.name}</h2>
           <p>{note.description}</p>
-          <button onClick={() => deleteNote(note)}>Delete note</button>
+          <Button onClick={() => deleteNote(note)}>Delete note</Button>
           {
             note.image && <img src={note.image} style={{width: 400}} alt="blah"/>
           }
@@ -85,7 +95,7 @@ function App() {
         ))
       }
       </div>
-      <AmplifySignOut />
+      <AmplifySignOut style={{width: "100px"}} />
     </div>
   );
 }
