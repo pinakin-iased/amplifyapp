@@ -4,7 +4,7 @@ import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 import { API, Storage } from 'aws-amplify';
-import { Button, Input, List } from '@mui/material';
+import { Button, Input } from '@mui/material';
 
 const initialFormState = { name: '', description: '' }
 
@@ -80,6 +80,9 @@ function App() {
           hidden
         />
       </Button>
+      <span style={{marginLeft: "10px"}}>
+        {formData.image}
+      </span>
       <Button onClick={createNote} style={{marginLeft: "20px"}}>Create Note</Button>
       <div style={{marginBottom: 30}}>
       {
@@ -87,15 +90,17 @@ function App() {
           <div key={note.id || note.name}>
           <h2>{note.name}</h2>
           <p>{note.description}</p>
-          <Button onClick={() => deleteNote(note)}>Delete note</Button>
           {
-            note.image && <img src={note.image} style={{width: 400}} alt="blah"/>
+            note.image && <img src={note.image} style={{width: 200}} alt="blah"/>
           }
+          <p>
+          <Button onClick={() => deleteNote(note)}>Delete note</Button>
+          </p>
           </div>
         ))
       }
       </div>
-      <AmplifySignOut style={{width: "100px"}} />
+      <AmplifySignOut />
     </div>
   );
 }
